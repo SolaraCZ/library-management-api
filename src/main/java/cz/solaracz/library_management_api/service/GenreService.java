@@ -1,4 +1,34 @@
 package cz.solaracz.library_management_api.service;
 
+import cz.solaracz.library_management_api.model.Genre;
+import cz.solaracz.library_management_api.repository.GenreRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
 public class GenreService {
+
+    private final GenreRepository genreRepository;
+
+    public GenreService(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
+    }
+
+    public List<Genre> getAllGenres() {
+        return genreRepository.findAll();
+    }
+
+    public Optional<Genre> getGenreById(Long id) {
+        return genreRepository.findById(id);
+    }
+
+    public Genre createGenre(Genre genre) {
+        return genreRepository.save(genre);
+    }
+
+    public void deleteGenre(Long id) {
+        genreRepository.deleteById(id);
+    }
 }
