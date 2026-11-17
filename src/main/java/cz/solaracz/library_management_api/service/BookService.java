@@ -1,6 +1,7 @@
 package cz.solaracz.library_management_api.service;
 
 import cz.solaracz.library_management_api.dto.BookRequest;
+import cz.solaracz.library_management_api.exception.ResourceNotFoundException;
 import cz.solaracz.library_management_api.model.Author;
 import cz.solaracz.library_management_api.model.Book;
 import cz.solaracz.library_management_api.model.Genre;
@@ -38,10 +39,10 @@ public class BookService {
 
     public Book createBook(BookRequest request) {
         Author author = authorRepository.findById(request.getAuthorId())
-                .orElseThrow(() -> new IllegalArgumentException("Author not found with id: " + request.getAuthorId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + request.getAuthorId()));
 
         Genre genre = genreRepository.findById(request.getGenreId())
-                .orElseThrow(() -> new IllegalArgumentException("Genre not found with id: " + request.getGenreId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Genre not found with id: " + request.getGenreId()));
 
         Book book = new Book(
                 request.getTitle(),
@@ -56,13 +57,13 @@ public class BookService {
 
     public Book updateBook(Long id, BookRequest request) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + id));
 
         Author author = authorRepository.findById(request.getAuthorId())
-                .orElseThrow(() -> new IllegalArgumentException("Author not found with id: " + request.getAuthorId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + request.getAuthorId()));
 
         Genre genre = genreRepository.findById(request.getGenreId())
-                .orElseThrow(() -> new IllegalArgumentException("Genre not found with id: " + request.getGenreId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Genre not found with id: " + request.getGenreId()));
 
         book.setTitle(request.getTitle());
         book.setIsbn(request.getIsbn());
